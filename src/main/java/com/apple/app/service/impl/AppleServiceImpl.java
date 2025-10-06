@@ -9,6 +9,7 @@ import com.apple.app.service.AppleService;
 import com.apple.app.util.OtpSend;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,11 @@ import java.time.LocalTime;
 @Service
 public class AppleServiceImpl implements AppleService {
 
+    private static final String UPLOAD_FILE = "C:/Users/Manoj Kumar/IdeaProjects/modules/apple-showroom/src/main/webapp/resource/userImages";
+
+    @Value("${image.storage.path}")
+    private  String DEFAULT_FILE ;
+
     @Autowired
     AppleRepo appleRepo;
 
@@ -31,8 +37,6 @@ public class AppleServiceImpl implements AppleService {
 
     @Autowired
     OtpSend otpSend;
-
-    private static final String UPLOADED_FOLDER = "";
 
     @Override
     public boolean userSaved(AppleDto appleDto) {
@@ -139,10 +143,9 @@ public class AppleServiceImpl implements AppleService {
             return "noFile";
         }
         try {
-            // Get the file and save it somewhere
             MultipartFile file = dto.getFile();
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(UPLOAD_FILE + file.getOriginalFilename());
             Files.write(path, bytes);
 
         } catch (IOException e) {
@@ -227,5 +230,14 @@ public class AppleServiceImpl implements AppleService {
         return dto;
     }
 
+    @Override
+    public Path displayUserImg(String email) {
+        AppleEntity user = appleRepo.emailAvaliability(email);
+        Path path = Paths.get(UPLOAD_FILE+user.getUserImageName());
+        if (!Files.exists(path)) {
+            return  Paths.get( DEFAULT_FILE+"defaultUserImg.jpeg");
+        }
+        return path;
+    }
 
 }

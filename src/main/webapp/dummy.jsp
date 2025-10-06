@@ -93,8 +93,7 @@
                 <li class="nav-item"><a class="nav-link" href="iphone">iPhone</a></li>
                 <li class="nav-item"><a class="nav-link active" href="contact">Contact</a></li>
             </ul>
-            <input type="hidden" name="email" value="${email}">
-            <a href="updateProfile">
+            <a href="profilePage">
                 <img src="resource/images/profile.png" alt="Profile" class="profile-icon">
             </a>
         </div>

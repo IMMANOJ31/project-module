@@ -2,6 +2,8 @@ package com.apple.app.service;
 
 import com.apple.app.dto.AppleDto;
 
+import java.nio.file.Path;
+
 
 public interface AppleService {
 
@@ -26,4 +28,6 @@ public interface AppleService {
     AppleDto displayUserByEmail(String email);
 
     AppleDto displayUserByPhone(String phone);
+
+    Path displayUserImg(String email);
 }

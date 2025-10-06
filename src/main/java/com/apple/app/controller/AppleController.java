@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Controller
 @RequestMapping("/")
@@ -54,7 +57,7 @@ public class AppleController {
 
 
     @PostMapping("loginPage")
-    public String loginEmail(@RequestParam("emailNPh") String emailNPh, @RequestParam("password") String password, Model model) {
+    public String loginEmail(@RequestParam("emailNPh") String emailNPh, @RequestParam("password") String password, HttpSession httpSession ,Model model) {
         System.out.println(password + "login passworddd");
         String validUser = service.checkMailAndPassword(emailNPh, password);
 
@@ -83,8 +86,8 @@ public class AppleController {
             model.addAttribute("nullError", "please use Registered  email or phone ");
             return "login";
         }
-
-        model.addAttribute("email",emailNPh);
+        httpSession.setAttribute("emailNPh",emailNPh);
+//        model.addAttribute("email",emailNPh);
         return "dummy";
     }
 
@@ -132,5 +135,13 @@ public class AppleController {
         model.addAttribute("dto",appleDto);
         return "profilepage";
     }
+
+    @GetMapping("displayImage")
+    @ResponseBody
+    public byte[] displayImage( String email) throws IOException {
+        Path path = service.displayUserImg(email);
+        return Files.readAllBytes(path);
+    }
+
 
 }

@@ -22,7 +22,7 @@ public class OtpSend {
     public String sendSimpleMessage( String email) {
         SimpleMailMessage message = new SimpleMailMessage();
             String otp = otpGenerator();
-            System.out.println(otp);
+            System.err.println(otp);
             message.setFrom("manoj65293@gmail.com");
             message.setTo(email);
             message.setSubject("");

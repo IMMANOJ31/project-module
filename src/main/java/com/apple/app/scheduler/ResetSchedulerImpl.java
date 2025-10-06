@@ -17,6 +17,6 @@ public class ResetSchedulerImpl implements ResetScheduler{
     @Override @Scheduled(fixedRate = 10*60*1000)
     public void otpReset() {
         appleRepo.resetOtp();
-        System.out.println("Otp reset");
+        System.err.println("Otp reseted!!!");
     }
 }
