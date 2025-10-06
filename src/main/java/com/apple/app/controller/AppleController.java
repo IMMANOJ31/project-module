@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -83,6 +84,7 @@ public class AppleController {
             return "login";
         }
 
+        model.addAttribute("email",emailNPh);
         return "dummy";
     }
 
@@ -117,13 +119,18 @@ public class AppleController {
         return "login";
     }
 
-    @PostMapping("updateProfile")
-    public String updateUser(AppleDto dto, Model model) {
-        service.updateProfile(dto);
-        AppleDto appleDto = service.displayUserByEmail(dto.getEmail());
-        AppleDto dto1 = service.displayUserByPhone(dto.getPhone());
+    @PostMapping("viewProfile")
+    public String updateUser(HttpSession session, Model model) {
+        String email = session.getAttribute("email").toString();
+        AppleDto appleDto = service.displayUserByEmail(email);
         model.addAttribute("dto", appleDto);
         return "updateUser";
+    }
+
+    @PostMapping("UpdateUserProfile")
+    public String updateUser(HttpSession httpSession, Model model,AppleDto appleDto){
+        model.addAttribute("dto",appleDto);
+        return "profilepage";
     }
 
 }

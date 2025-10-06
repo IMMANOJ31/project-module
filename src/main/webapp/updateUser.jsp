@@ -116,7 +116,7 @@
 <div class="container mt-4">
     <div class="form-container">
         <h3 class="text-center mb-4">Profile</h3>
-        <form action="updateProfile" method="post">
+        <form action="viewProfile" method="post">
             <div class="mb-3">
                 <label>First Name</label>
                 <input type="text" name="firstName" class="form-control" placeholder="Enter First Name"
