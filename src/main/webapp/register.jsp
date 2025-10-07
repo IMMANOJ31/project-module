@@ -146,6 +146,7 @@
                 <label>Gender</label><br>
                 <input type="radio" name="gender" value="Male" onChange="genderValidation()" required> Male
                 <input type="radio" name="gender" value="Female" onChange="genderValidation()" class="ms-3" required> Female
+                <input type="radio" name="gender" value="Others" onChange="genderValidation()" class="ms-3" required> Others
                 <span id="genderMsg" style="color:red";></span>
             </div>
             <div class="mb-3">

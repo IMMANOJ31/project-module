@@ -63,21 +63,9 @@ public class AppleRestController {
         return "resetPassword";
     }
 
-    @GetMapping("profilePage")
-    public String viewProfile(HttpSession session, Model model){
-        String  emailNPh = session.getAttribute("emailNPh").toString();
-        AppleDto appleDto = service.displayUserByEmail(emailNPh);
-        model.addAttribute("dto",appleDto);
-        return "viewProfile";
-    }
 
-    @PostMapping("updateProfile")
-    public String update(HttpSession httpSession, Model model){
-        String  emailNPh = httpSession.getAttribute("emailNPh").toString();
-       AppleDto appleDto = service.displayUserByEmail(emailNPh);
-       model.addAttribute("dto",appleDto);
-        return "profileUpdate";
-    }
+
+
 
     @PostMapping("logout")
     public String redirect(){

@@ -26,6 +26,7 @@ public class AppleEntity {
     @Column(name = "phone_number",unique = true)
     private String phone;
     private String dob;
+    private String gender;
     private String country;
     private String state;
     private String city;
@@ -35,5 +36,6 @@ public class AppleEntity {
     @Column(name = "otp")
     private  String  otp;
     @Column(name ="userImageName")
+
     private String userImageName;
 }

@@ -96,14 +96,14 @@
             <h1 class="mt-4">Profile Information</h1>
 
             <div class="form-container">
-                <form action="profilePage" method="post">
+                <form action="updateProfile" method="post">
 
                     <!-- 🔹 Visible Inputs -->
+                     <img src="getImage/{dto.userImageName}">
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
                         <input type="text" class="form-control" value="${dto.firstName}" readonly>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">Last Name</label>
                         <input type="text" class="form-control" value="${dto.lastName}" readonly>
@@ -124,7 +124,15 @@
                         <input type="text" class="form-control" value="${dto.dob}" readonly>
                     </div>
 
-
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label><br>
+                        <input type="radio" name="gender" value="Male"
+                            <c:if test="${dto.gender == 'Male'}">checked</c:if> disabled> Male
+                        <input type="radio" name="gender" value="Female"
+                            <c:if test="${dto.gender == 'Female'}">checked</c:if> disabled> Female
+                        <input type="radio" name="gender" value="Other"
+                            <c:if test="${dto.gender == 'Other'}">checked</c:if> disabled> Other
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Country</label>
                         <input type="text" class="form-control" value="${dto.country}" readonly>
@@ -144,21 +152,16 @@
                         <label class="form-label">Pincode</label>
                         <input type="text" class="form-control" value="${dto.pincode}" readonly>
                     </div>
-
-                    <!-- 🔹 Hidden Inputs for form submission -->
-                    <input type="hidden" name="firstName" value="${dto.firstName}">
-                    <input type="hidden" name="lastName" value="${dto.lastName}">
-
-                    <input type="hidden" name="pincode" value="${dto.pincode}">
                     <input type="hidden" name="password" value="${dto.password}">
-
+                    <input type="hidden" name="confirmPassword" value="${dto.password}">
+                    <input type="hidden" name="id" value="${dto.userId}">
 
                     <div class="d-grid gap-2">
-                        <button type="submit" formaction="updateProfile" formmethod="post" class="btn btn-danger">Update</button>
-                         <button type="submit" formaction="logout" formmethod="post" class="btn btn-danger">Logout</button>
+                        <button type="submit" formmethod="post" class="btn btn-danger">Update</button>
                     </div>
-
                 </form>
+                   <button type="submit" formaction="logout" formmethod="post" class="btn btn-danger">Logout</button>
+
             </div>
         </div>
     </div>

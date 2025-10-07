@@ -2,18 +2,23 @@ package com.apple.app.controller;
 
 import com.apple.app.dto.AppleDto;
 import com.apple.app.util.OtpSend;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.ResponseEntity;
 import com.apple.app.service.AppleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 
 @Controller
 @RequestMapping("/")
@@ -25,6 +30,7 @@ public class AppleController {
     @Autowired
     OtpSend emailSend;
 
+    private static final String UPLOAD_FILE  = "C:/Users/Manoj Kumar/IdeaProjects/modules/apple-showroom/src/main/webapp/resource/userImages";
     @PostMapping("registerUser")
     public String saveUserDetails(@Valid AppleDto appleDto) {
         service.userSaved(appleDto);
@@ -87,7 +93,6 @@ public class AppleController {
             return "login";
         }
         httpSession.setAttribute("emailNPh",emailNPh);
-//        model.addAttribute("email",emailNPh);
         return "dummy";
     }
 
@@ -130,10 +135,12 @@ public class AppleController {
         return "updateUser";
     }
 
-    @PostMapping("UpdateUserProfile")
-    public String updateUser(HttpSession httpSession, Model model,AppleDto appleDto){
-        model.addAttribute("dto",appleDto);
-        return "profilepage";
+    @PostMapping("validateAndUpdateProfile")
+    public String updateUser(AppleDto dto, HttpSession httpSession, Model model){
+        System.err.println("==============="+dto);
+        System.err.println(dto.getFile().getOriginalFilename());
+        model.addAttribute("dto",dto);
+        return "profileUpdate";
     }
 
     @GetMapping("displayImage")
@@ -143,5 +150,34 @@ public class AppleController {
         return Files.readAllBytes(path);
     }
 
+    @GetMapping("getImage/{fileName}")
+    public void readImg(@PathVariable String fileName, HttpServletResponse response){
+        File file = new File(UPLOAD_FILE + fileName);
+        try{
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStream inputStream = new BufferedInputStream(fileInputStream);
+            ServletOutputStream stream = response.getOutputStream();
+            IOUtils.copy(inputStream,stream);
+            response.flushBuffer();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
 
+    }
+    @PostMapping("updateProfile")
+    public String update(HttpSession httpSession, Model model){
+        String  emailNPh = httpSession.getAttribute("emailNPh").toString();
+        AppleDto appleDto = service.displayUserByEmail(emailNPh);
+        System.out.println("============================================================");
+        System.err.println(appleDto);
+        model.addAttribute("dto",appleDto);
+        return "profileUpdate";
+    }
+    @GetMapping("profilePage")
+    public String viewProfile(HttpSession session, Model model){
+        String  emailNPh = session.getAttribute("emailNPh").toString();
+        AppleDto appleDto = service.displayUserByEmail(emailNPh);
+        model.addAttribute("dto",appleDto);
+        return "viewProfile";
+    }
 }

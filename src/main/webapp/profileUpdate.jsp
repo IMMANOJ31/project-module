@@ -117,8 +117,7 @@
         <div class="form-container">
             <h3 class="text-center mb-4">Update Profile</h3>
 
-            <form action="updateProfile" method="post" enctype="multipart/form-data">
-
+            <form action="validateAndUpdateProfile" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label">First Name</label>
                     <input type="text" name="firstName" class="form-control" id="fName"
@@ -182,17 +181,19 @@
                     <span id="pincodeMsg" style="color:red;"></span>
                 </div>
 
-                <input type="hidden" name="password" id="password" value="${dto.password}" required>
-
+                <input type="text" name="password" id="password" value="${dto.password}" hidden>
+                   <input type="text" name="confirmPassword" value="${dto.password}" hidden>
+                     <input type="text" name="id" value="${dto.userId}" hidden>
+                    <input type="text" name="gender" class="form-control" id="gender" value ="${dto.gender}" hidden>
                 <div class="mb-3">
                     <label class="form-label">Upload Profile Picture</label>
                     <input type="file" name="file" class="form-control" id="file">
                 </div>
-
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary" id="Submitbutton">Update</button>
                 </div>
             </form>
+
         </div>
     </div>
 
@@ -223,7 +224,7 @@
             let isFormValid = firstNameValidation() && lastNameValidation() && emailValidation() &&
                 phoneValidation() && dobValidation() && countryValidation() &&
                 stateValidation() && cityValidation() && pincodeValidation();
-            document.getElementById("Submitbutton").disabled = !isFormValid;
+            document.getElementById("Submitbutton").disabled = isFormValid;
         }
 
         document.querySelectorAll("input").forEach(input => {
