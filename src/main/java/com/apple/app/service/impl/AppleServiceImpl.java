@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -238,6 +239,42 @@ public class AppleServiceImpl implements AppleService {
             return  Paths.get( DEFAULT_FILE+"defaultUserImg.jpeg");
         }
         return path;
+    }
+    @Override
+    public String validateAndUpdate(AppleDto dto) {
+        System.err.println(dto.getUserId() + "ID check <-----------------------------------");
+        if (dto == null) {
+            return "noDtoError";
+        }
+        if (dto.getFile() == null) {
+            return "noFileError";
+        }
+        if (!saveImg(dto)) {
+            return "fileNotSaved";
+        }
+        AppleEntity entity = new AppleEntity();
+        System.err.println(dto);
+        System.err.println("Img in service==============================================");
+        BeanUtils.copyProperties(dto, entity);
+        entity.setUserImageName(dto.getFile().getOriginalFilename());
+        System.err.println(entity);
+        appleRepo.updateUser(entity);
+        return "noErrors";
+    }
+
+    private static boolean saveImg(AppleDto dto){
+        MultipartFile fileUpload = dto.getFile();
+        System.err.println(fileUpload.getOriginalFilename());
+        try {
+            byte[] bytes = fileUpload.getBytes();
+            Path  path = Paths.get(UPLOAD_FILE + fileUpload.getOriginalFilename());
+            Files.write(path,bytes);
+            fileUpload.getOriginalFilename();
+            return true;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

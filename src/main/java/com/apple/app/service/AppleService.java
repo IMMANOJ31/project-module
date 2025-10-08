@@ -30,4 +30,6 @@ public interface AppleService {
     AppleDto displayUserByPhone(String phone);
 
     Path displayUserImg(String email);
+
+    String validateAndUpdate(AppleDto dto);
 }

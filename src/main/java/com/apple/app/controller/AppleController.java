@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -136,11 +135,13 @@ public class AppleController {
     }
 
     @PostMapping("validateAndUpdateProfile")
-    public String updateUser(AppleDto dto, HttpSession httpSession, Model model){
-        System.err.println("==============="+dto);
-        System.err.println(dto.getFile().getOriginalFilename());
-        model.addAttribute("dto",dto);
-        return "profileUpdate";
+    public String updateUser(AppleDto dto,  Model model){
+        service.validateAndUpdate(dto);
+       AppleDto appleDto = service.displayUserByEmail(dto.getEmail());
+        System.err.println(appleDto.getUserImageName()+"======================================================================");
+        System.err.println(appleDto.toString());
+        model.addAttribute("dto",appleDto);
+        return "viewProfile";
     }
 
     @GetMapping("displayImage")
@@ -150,26 +151,26 @@ public class AppleController {
         return Files.readAllBytes(path);
     }
 
-    @GetMapping("getImage/{fileName}")
-    public void readImg(@PathVariable String fileName, HttpServletResponse response){
-        File file = new File(UPLOAD_FILE + fileName);
-        try{
-            FileInputStream fileInputStream = new FileInputStream(file);
-            InputStream inputStream = new BufferedInputStream(fileInputStream);
-            ServletOutputStream stream = response.getOutputStream();
-            IOUtils.copy(inputStream,stream);
-            response.flushBuffer();
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
+//    @GetMapping("getImage")
+//    public void readImg( String userImageName, HttpServletResponse response){
+////        File file = new File(UPLOAD_FILE + userImageName);
+//        System.err.println(" service file <-----------------------------------------"+userImageName);
+////        System.err.println(file);
+////        try{
+////            FileInputStream fileInputStream = new FileInputStream(file);
+////            InputStream inputStream = new BufferedInputStream(fileInputStream);
+////            ServletOutputStream stream = response.getOutputStream();
+////            IOUtils.copy(inputStream,stream);
+////            response.flushBuffer();
+////        }catch (Exception e){
+////            System.err.println(e.getMessage());
+////        }
+//    }
 
-    }
     @PostMapping("updateProfile")
     public String update(HttpSession httpSession, Model model){
         String  emailNPh = httpSession.getAttribute("emailNPh").toString();
         AppleDto appleDto = service.displayUserByEmail(emailNPh);
-        System.out.println("============================================================");
-        System.err.println(appleDto);
         model.addAttribute("dto",appleDto);
         return "profileUpdate";
     }
@@ -180,4 +181,5 @@ public class AppleController {
         model.addAttribute("dto",appleDto);
         return "viewProfile";
     }
+
 }

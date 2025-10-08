@@ -118,6 +118,7 @@
             <h3 class="text-center mb-4">Update Profile</h3>
 
             <form action="validateAndUpdateProfile" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="userId" value="${dto.userId}">
                 <div class="mb-3">
                     <label class="form-label">First Name</label>
                     <input type="text" name="firstName" class="form-control" id="fName"
@@ -162,14 +163,14 @@
 
                 <div class="mb-3">
                     <label class="form-label">State</label>
-                    <input type="text" name="state" class="form-control" id="state"
+                    <input type="text" name="state" class="form-control" id="state" name="state"
                         value="${dto.state}" placeholder="Enter State" onChange="stateValidation()" required>
                     <span id="stateMsg" style="color:red;"></span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">City</label>
-                    <input type="text" name="city" class="form-control" id="city"
+                    <input type="text" name="city" class="form-control" id="city" name="city"
                         value="${dto.city}" placeholder="Enter City" onChange="cityValidation()" required>
                     <span id="cityMsg" style="color:red;"></span>
                 </div>
@@ -185,9 +186,10 @@
                    <input type="text" name="confirmPassword" value="${dto.password}" hidden>
                      <input type="text" name="id" value="${dto.userId}" hidden>
                     <input type="text" name="gender" class="form-control" id="gender" value ="${dto.gender}" hidden>
+
                 <div class="mb-3">
                     <label class="form-label">Upload Profile Picture</label>
-                    <input type="file" name="file" class="form-control" id="file">
+                    <input type="file" name="file" class="form-control" id="file" accept="image/*">
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary" id="Submitbutton">Update</button>

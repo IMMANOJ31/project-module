@@ -94,7 +94,7 @@
                 <li class="nav-item"><a class="nav-link active" href="contact">Contact</a></li>
             </ul>
             <a href="profilePage">
-                <img src="resource/images/profile.png" alt="Profile" class="profile-icon">
+                <img src="img src=displayImage?email=${dto.email}" alt="Profile" class="profile-icon">
             </a>
         </div>
     </div>

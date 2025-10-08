@@ -35,7 +35,7 @@ public class AppleEntity {
     private String password;
     @Column(name = "otp")
     private  String  otp;
-    @Column(name ="userImageName")
 
+    @Column(name ="userImageName")
     private String userImageName;
 }

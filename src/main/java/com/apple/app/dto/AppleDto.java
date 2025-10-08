@@ -39,6 +39,7 @@ public class AppleDto {
     private String password;
     @NotNull(message = "Confrim password can't be null")
     private String confirmPassword;
+
     private String otp;
 
     private MultipartFile file;

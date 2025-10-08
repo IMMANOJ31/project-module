@@ -99,7 +99,9 @@
                 <form action="updateProfile" method="post">
 
                     <!-- 🔹 Visible Inputs -->
-                     <img src="getImage/{dto.userImageName}">
+                     <img src="displayImage?email=${dto.email}" alt="User Image"  style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;"/>
+
+                    <input type="hidden" name="userId" value="${dto.userId}">
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
                         <input type="text" class="form-control" value="${dto.firstName}" readonly>
@@ -154,7 +156,7 @@
                     </div>
                     <input type="hidden" name="password" value="${dto.password}">
                     <input type="hidden" name="confirmPassword" value="${dto.password}">
-                    <input type="hidden" name="id" value="${dto.userId}">
+
 
                     <div class="d-grid gap-2">
                         <button type="submit" formmethod="post" class="btn btn-danger">Update</button>
